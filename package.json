@@ -1,0 +1,26 @@
+{
+  "name": "capiroute",
+  "version": "0.1.0",
+  "description": "simple routing library",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/calimaborges/capiroute.git"
+  },
+  "keywords": [
+    "route",
+    "routing"
+  ],
+  "author": "Carlos Augusto Borges (http://carlosborg.es/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/calimaborges/capiroute/issues"
+  },
+  "homepage": "https://github.com/calimaborges/capiroute#readme",
+  "devDependencies": {
+    "jest": "^19.0.2"
+  }
+}
