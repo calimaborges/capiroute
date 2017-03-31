@@ -4,7 +4,10 @@
   "description": "simple routing library",
   "main": "build/index.js",
   "scripts": {
-    "test": "jest"
+    "start": "NODE_ENV=development babel-watch src/index.js",
+    "build": "NODE_ENV=production babel src -d build",
+    "test": "NODE_ENV=test jest --runInBand --coverage",
+    "test:watch": "NODE_ENV=test jest --runInBand --coverage --watch"
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,15 @@
   },
   "homepage": "https://github.com/calimaborges/capiroute#readme",
   "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-latest": "^6.24.0",
+    "babel-watch": "^2.0.6",
     "jest": "^19.0.2"
+  },
+  "dependencies": {
+    "normalize-path": "latest",
+    "qs": "latest",
+    "react": "^15.4.2"
   }
 }
