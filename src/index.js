@@ -1,12 +1,13 @@
 import qs from 'qs';
 import normalize from 'normalize-path';
 
-const createRouter = () => {
+export const createRouter = () => {
 
     let listeners = [];
     let params = null;
     let query = null;
 
+    // returns unsubscribe function
     const subscribe = (listener) => {
         listeners.push(listener);
 
@@ -32,6 +33,8 @@ const createRouter = () => {
 
     const match = (route) => {
         params = getCurrentRoute().match(route);
+
+        //TODO: this should be done on queryString
         query = qs.parse(window.location.search.substr(1));
 
         return !!params;
@@ -43,11 +46,14 @@ const createRouter = () => {
         return params;
     };
 
-    const matchedQuery = () => {
+    const queryString = () => {
+        //TODO: this should be done on queryString
+        //query = qs.parse(window.location.search.substr(1));
         return query;
     };
 
     const hasQuery = () => {
+        // TODO: should call queryString
         return Object.keys(query).length > 0;
     };
 
@@ -65,7 +71,5 @@ const createRouter = () => {
         listeners.forEach(listener => listener(window.location));
     };
 
-    return { subscribe, goto, back, match, matchedParams, matchedQuery, hasQuery, setQuery, dispatch, isRoot };
+    return { subscribe, goto, back, match, matchedParams, queryString, hasQuery, setQuery, dispatch, isRoot };
 };
-
-export default createRouter();
