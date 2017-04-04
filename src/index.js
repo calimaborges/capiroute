@@ -38,7 +38,7 @@ const createRouter = () => {
 
     const isRoot = () => match(/^\/$/);
 
-    const matchedParams = () => {
+    const getMatchedParams = () => {
         return params;
     };
 
@@ -64,7 +64,19 @@ const createRouter = () => {
         listeners.forEach(listener => listener(window.location));
     };
 
-    return { subscribe, goto, back, match, matchedParams, queryString, hasQuery, setQueryString, dispatch, isRoot, getCurrentRoute };
+    return {
+        subscribe,
+        goto,
+        back,
+        match,
+        getMatchedParams,
+        queryString,
+        hasQuery,
+        setQueryString,
+        dispatch,
+        isRoot,
+        getCurrentRoute
+    };
 };
 
 export default createRouter();

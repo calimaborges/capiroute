@@ -73,7 +73,7 @@ describe('routing management', () => {
     it('should return matched params after match', () => {
         setCurrentUrl('http://www.example.com/tasks/34');
         router.match(/^\/tasks\/(\d+)/);
-        expect(router.matchedParams()[1]).toBe('34');
+        expect(router.getMatchedParams()[1]).toBe('34');
     });
 
     it('should return query string', () => {

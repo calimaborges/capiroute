@@ -7,18 +7,17 @@ npm install capiroute --save
 ```
 
 ---
-## Example
+## Example using React
 
 ```javascript
 // index.js
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import { createRouter } from 'capiroute';
+import router from 'capiroute';
+
 import App from './src/App';
 import { createNewTask, editTask } from './src/task';
-
-let router = createRouter();
 
 const render = () => ReactDOM.render(<App />, document.getElementById('root'));
 
@@ -46,11 +45,6 @@ router.subscribe( () => {
 
 ---
 ## API
-
-* **createRouter()**: create a router instance
-    ```javascript
-    const router = createRouter(); 
-    ```
 
 * **subscribe(function)**: call function on every route change.
     
