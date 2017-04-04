@@ -1,9 +1,7 @@
 import { createRouter } from '../src';
-import { setCurrentUrl, prepareMocks } from './helper.lib';
+import { setCurrentUrl } from './helper.lib';
 
 let router = createRouter();
-
-prepareMocks();
 
 describe('subscription', () => {
     it('should trigger listeners on location change', () => {
@@ -30,18 +28,27 @@ describe('subscription', () => {
 
 describe('routing management', () => {
     it('should go to specified route', () => {
+        const oldPushState = window.history.pushState;
+        const oldOnPopState = window.onpopstate;
         window.history.pushState = jest.fn();
         window.onpopstate = jest.fn();
         router.goto('/tasks');
+
+        // FIXME: should try to test without mocks
         expect(window.history.pushState.mock.calls.length).toBe(1);
         expect(window.history.pushState.mock.calls[0][2]).toBe('/tasks');
         expect(window.onpopstate.mock.calls.length).toBe(1);
+
+        window.history.pushState = oldPushState;
+        window.onpopstate = oldOnPopState;
     });
 
     it('should go back', () => {
+        const oldBack = window.history.pushState;
         window.history.back = jest.fn();
         router.back();
         expect(window.history.back.mock.calls.length).toBe(1);
+        window.history.back = oldBack;
     });
 
     it('should match current route', () => {
@@ -84,14 +91,31 @@ describe('routing management', () => {
         expect(router.hasQuery()).toBe(false);
     });
 
-    xit('should define query string', () => {
+    it('should define query string', () => {
         setCurrentUrl('http://www.example.com/tasks');
-        router.setQueryString({ type: 'test' });
-        expect(router.queryString()).toEqual({ type: 'test' });
-        console.log(router.queryString());
-        // expect(router.match(/tasks/)).toBe(true);
+        const oldPushState = window.history.pushState;
+        const oldOnPopState = window.onpopstate;
+        window.history.pushState = jest.fn();
+        window.onpopstate = jest.fn();
 
+        router.setQueryString({ type: 'test' });
+
+        // FIXME: should try to test without mocks
+        expect(window.history.pushState.mock.calls.length).toBe(1);
+        expect(window.history.pushState.mock.calls[0][2]).toBe('/tasks?type=test');
+        expect(window.onpopstate.mock.calls.length).toBe(1);
+
+        window.history.pushState = oldPushState;
+        window.onpopstate = oldOnPopState;
     });
 
+    it('should force route update', () => {
+        let calls = 0;
+        router.subscribe( () => {
+            calls++;
+        });
+        router.dispatch();
+        expect(calls).toBe(1);
+    });
 
 });
