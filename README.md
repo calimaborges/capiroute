@@ -1,5 +1,7 @@
 # capiroute
 
+[![Build Status](https://www.travis-ci.org/calimaborges/capiroute.svg?branch=master)](https://www.travis-ci.org/calimaborges/capiroute)
+
 ## Installation
 
 ```
