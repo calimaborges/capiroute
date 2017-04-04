@@ -33,31 +33,24 @@ export const createRouter = () => {
 
     const match = (route) => {
         params = getCurrentRoute().match(route);
-
-        //TODO: this should be done on queryString
-        query = qs.parse(window.location.search.substr(1));
-
         return !!params;
     };
 
-    const isRoot = () => match(/^$/);
+    const isRoot = () => match(/^\/$/);
 
     const matchedParams = () => {
         return params;
     };
 
     const queryString = () => {
-        //TODO: this should be done on queryString
-        //query = qs.parse(window.location.search.substr(1));
-        return query;
+        return qs.parse(window.location.search.substr(1));
     };
 
     const hasQuery = () => {
-        // TODO: should call queryString
-        return Object.keys(query).length > 0;
+        return Object.keys(queryString()).length > 0;
     };
 
-    const setQuery = (obj) => {
+    const setQueryString = (obj) => {
         query = { ...query, ...obj };
         let route = `${getCurrentRoute()}?${qs.stringify(query)}`;
         goto(route, false);
@@ -71,5 +64,5 @@ export const createRouter = () => {
         listeners.forEach(listener => listener(window.location));
     };
 
-    return { subscribe, goto, back, match, matchedParams, queryString, hasQuery, setQuery, dispatch, isRoot };
+    return { subscribe, goto, back, match, matchedParams, queryString, hasQuery, setQueryString, dispatch, isRoot, getCurrentRoute };
 };
