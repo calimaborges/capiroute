@@ -1,7 +1,7 @@
 import qs from 'qs';
 import normalize from 'normalize-path';
 
-export const createRouter = () => {
+const createRouter = () => {
 
     let listeners = [];
     let params = null;
@@ -66,3 +66,5 @@ export const createRouter = () => {
 
     return { subscribe, goto, back, match, matchedParams, queryString, hasQuery, setQueryString, dispatch, isRoot, getCurrentRoute };
 };
+
+export default createRouter();

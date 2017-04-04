@@ -1,6 +1,7 @@
 import React from 'react';
+import router from './';
 
-const handleLink = (router) => (to, queryTo, onClick, keepQuery) => event => {
+const handleLink = (to, queryTo, onClick, keepQuery) => event => {
     event.preventDefault();
     if (onClick) {
         onClick(event);
@@ -15,9 +16,9 @@ const handleLink = (router) => (to, queryTo, onClick, keepQuery) => event => {
     }
 };
 
-const Link = ({ to, onClick, keepQuery, queryTo, children, router, ...props}) => (
+const Link = ({ to, onClick, keepQuery, queryTo, children, ...props}) => (
     <a href={to || "/"}
-        onClick={handleLink(router)(to, queryTo, onClick, keepQuery)}
+        onClick={handleLink(to, queryTo, onClick, keepQuery)}
         {...props}>
         {children}
     </a>

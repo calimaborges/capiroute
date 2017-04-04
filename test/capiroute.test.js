@@ -1,7 +1,5 @@
-import { createRouter } from '../src';
+import router from '../src';
 import { setCurrentUrl } from './helper.lib';
-
-let router = createRouter();
 
 describe('subscription', () => {
     it('should trigger listeners on location change', () => {
