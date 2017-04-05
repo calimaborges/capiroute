@@ -1,6 +1,7 @@
 # capiroute
 
 [![Build Status](https://www.travis-ci.org/calimaborges/capiroute.svg?branch=master)](https://www.travis-ci.org/calimaborges/capiroute)
+[![Coverage Status](https://coveralls.io/repos/github/calimaborges/capiroute/badge.svg?branch=master)](https://coveralls.io/github/calimaborges/capiroute?branch=master)
 
 ## Installation
 
