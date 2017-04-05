@@ -1,4 +1,4 @@
-import router from '../src';
+import { router } from '../src';
 import { setCurrentUrl } from './helper.lib';
 
 describe('subscription', () => {
