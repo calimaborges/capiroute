@@ -25,9 +25,7 @@ const createRouter = () => {
         window.onpopstate();
     };
 
-    const back = () => {
-        window.history.back();
-    };
+    const back = () => window.history.back();
 
     const getCurrentRoute = () => normalize(window.location.pathname);
 
@@ -36,19 +34,13 @@ const createRouter = () => {
         return !!params;
     };
 
-    const isRoot = () => match(/^\/$/);
+    const isRoot = () => match(/^\/?$/);
 
-    const getMatchedParams = () => {
-        return params;
-    };
+    const getMatchedParams = () => params;
 
-    const queryString = () => {
-        return qs.parse(window.location.search.substr(1));
-    };
+    const getQueryString = () => qs.parse(window.location.search.substr(1));
 
-    const hasQuery = () => {
-        return Object.keys(queryString()).length > 0;
-    };
+    const hasQueryString = () => Object.keys(getQueryString()).length > 0;
 
     const setQueryString = (obj) => {
         query = { ...query, ...obj };
@@ -56,13 +48,9 @@ const createRouter = () => {
         goto(route, false);
     };
 
-    const dispatch = () => {
-        window.onpopstate();
-    };
+    const dispatch = () => window.onpopstate();
 
-    window.onpopstate = () => {
-        listeners.forEach(listener => listener(window.location));
-    };
+    window.onpopstate = () => listeners.forEach(listener => listener(window.location));
 
     return {
         subscribe,
@@ -70,8 +58,8 @@ const createRouter = () => {
         back,
         match,
         getMatchedParams,
-        queryString,
-        hasQuery,
+        getQueryString,
+        hasQueryString,
         setQueryString,
         dispatch,
         isRoot,

@@ -1,5 +1,5 @@
 import React from 'react';
-import router from './';
+import { router } from './';
 
 const handleLink = (to, queryTo, onClick, keepQuery) => event => {
     event.preventDefault();
@@ -11,7 +11,7 @@ const handleLink = (to, queryTo, onClick, keepQuery) => event => {
         router.goto(to, keepQuery);
 
     if (queryTo)
-        router.setQuery(queryTo);
+        router.setQueryString(queryTo);
 };
 
 const Link = ({ to, onClick, keepQuery, queryTo, children, ...props}) => (
@@ -26,3 +26,5 @@ Link.propTypes = {
     to: React.PropTypes.string,
     keepQuery: React.PropTypes.any
 };
+
+export default Link;

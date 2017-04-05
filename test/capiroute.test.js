@@ -78,15 +78,15 @@ describe('routing management', () => {
 
     it('should return query string', () => {
         setCurrentUrl('http://www.example.com/tasks?type=completed&box=archive');
-        expect(router.queryString()).toEqual({ type: 'completed', box: 'archive' });
+        expect(router.getQueryString()).toEqual({ type: 'completed', box: 'archive' });
     });
 
     it('should check for query string', () => {
         setCurrentUrl('http://www.example.com/tasks?type=completed&box=archive');
-        expect(router.hasQuery()).toBe(true);
+        expect(router.hasQueryString()).toBe(true);
 
         setCurrentUrl('http://www.example.com/tasks');
-        expect(router.hasQuery()).toBe(false);
+        expect(router.hasQueryString()).toBe(false);
     });
 
     it('should define query string', () => {
