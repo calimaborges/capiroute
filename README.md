@@ -89,7 +89,7 @@ router.subscribe( () => {
     ```
     
         
-* **matchedParams()**: return the last matched params array
+* **getMatchedParams()**: return the last matched params array
  
     ```javascript
     // considering route: /tasks/342
@@ -98,7 +98,7 @@ router.subscribe( () => {
     // output: [ '/tasks/342', 342 ]
     ```
 
-* **queryString()**: return the last matched query string
+* **getQueryString()**: return the last matched query string
  
     ```javascript
     // considering route /tasks/342?type=completed
