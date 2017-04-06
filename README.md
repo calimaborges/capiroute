@@ -19,7 +19,7 @@ npm install capiroute --save
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import router from 'capiroute';
+import { router } from 'capiroute';
 
 import App from './src/App';
 import { createNewTask, editTask } from './src/task';
@@ -137,6 +137,7 @@ router.subscribe( () => {
 
 ```javascript
 import React from 'react';
+import { Link } from 'capiroute';
 
 // Element create a link to /tasks?type=archived and log to console on click
 const MyLink = () => (
