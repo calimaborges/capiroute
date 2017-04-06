@@ -17,14 +17,15 @@ const handleLink = (to, queryTo, onClick, keepQuery) => event => {
 const Link = ({ to, onClick, keepQuery, queryTo, children, ...props}) => (
     <a href={to || "/"}
         onClick={handleLink(to, queryTo, onClick, keepQuery)}
-        {...props}>
+       {...props}>
         {children}
     </a>
 );
 
 Link.propTypes = {
     to: React.PropTypes.string,
-    keepQuery: React.PropTypes.any
+    queryTo: React.PropTypes.object,
+    keepQuery: React.PropTypes.bool
 };
 
 export default Link;

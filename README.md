@@ -10,7 +10,9 @@ npm install capiroute --save
 ```
 
 ---
-## Example using React
+## router
+
+### Example using React
 
 ```javascript
 // index.js
@@ -46,8 +48,7 @@ router.subscribe( () => {
 });
 ```
 
----
-## API
+### API
 
 * **subscribe(function)**: call function on every route change.
     
@@ -106,7 +107,7 @@ router.subscribe( () => {
     // output: { type: 'completed' }
     ```
 
-* **hasQuery()**: returns if query string exists or not
+* **hasQueryString()**: returns if query string exists or not
 
     ```javascript
     // considering route /tasks?type=completed
@@ -129,3 +130,48 @@ router.subscribe( () => {
     ```javascript
     router.dispatch();
     ```
+    
+## Link
+
+### Example
+
+```javascript
+import React from 'react';
+
+// Element create a link to /tasks?type=archived and log to console on click
+const MyLink = () => (
+    <Link to="/tasks" queryTo={{ type: 'archived' }} onClick={{console.log('clicked')}} />
+);
+
+export default MyLink;
+```
+
+### props
+
+* **to**: define which route to goto
+
+```javascript
+// link to /tasks
+<Link to="/tasks" />
+```
+
+* **queryTo**: add queryString to URL
+
+```javascript
+// link to current route appended with ?type=archived
+<Link queryTo={{ type: 'archived' }} />
+```
+
+* **onClick**: append click event
+
+```javascript
+// will log to console on click
+<Link onClick={{ console.log("clicked") }} />
+```
+
+* **keepQuery**: keep current queryString on route change
+```javascript
+// considering current URL /?type=archived
+// should link to /tasks?type=archived
+<Link to="/tasks" keepQuery />
+```
