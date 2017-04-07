@@ -1,6 +1,6 @@
 {
   "name": "capiroute",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "simple routing library",
   "main": "build/index.js",
   "scripts": {
