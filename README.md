@@ -95,7 +95,7 @@ router.subscribe( () => {
     ```javascript
     // considering route: /tasks/342
     router.match(/\/tasks/(\d+)/);
-    console.log(matchedParams);
+    console.log(router.getMatchedParams());
     // output: [ '/tasks/342', 342 ]
     ```
 
@@ -103,7 +103,7 @@ router.subscribe( () => {
  
     ```javascript
     // considering route /tasks/342?type=completed
-    console.log(router.queryString());
+    console.log(router.getQueryString());
     // output: { type: 'completed' }
     ```
 
@@ -111,10 +111,10 @@ router.subscribe( () => {
 
     ```javascript
     // considering route /tasks?type=completed
-    console.log(router.hasQuery());
+    console.log(router.hasQueryString());
     // output: true
     // considering route /tasks
-    console.log(router.hasQuery());
+    console.log(router.hasQueryString());
     // output: false
     ```
 * **setQueryString(newQueryString)**: set query string
