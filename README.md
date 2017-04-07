@@ -99,7 +99,7 @@ router.subscribe( () => {
     // output: [ '/tasks/342', 342 ]
     ```
 
-* **getQueryString()**: return the last matched query string
+* **getQueryString()**: return current route's query string
  
     ```javascript
     // considering route /tasks/342?type=completed
