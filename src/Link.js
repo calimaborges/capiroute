@@ -1,4 +1,5 @@
 import React from 'react';
+import { string, object, bool } from 'prop-types';
 import { router } from './';
 
 const handleLink = (to, queryTo, onClick, keepQuery) => event => {
@@ -23,9 +24,9 @@ const Link = ({ to, onClick, keepQuery, queryTo, children, ...props}) => (
 );
 
 Link.propTypes = {
-    to: React.PropTypes.string,
-    queryTo: React.PropTypes.object,
-    keepQuery: React.PropTypes.bool
+    to: string,
+    queryTo: object,
+    keepQuery: bool
 };
 
 export default Link;
