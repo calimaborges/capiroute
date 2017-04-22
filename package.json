@@ -5,13 +5,15 @@
   "main": "build/index.js",
   "scripts": {
     "start": "NODE_ENV=development watch 'npm run build' src",
-    "build": "NODE_ENV=production babel src -d build",
+    "build": "NODE_ENV=production npm run linter && babel src -d build",
     "test": "NODE_ENV=test jest --runInBand --coverage",
     "test:watch": "NODE_ENV=test jest --runInBand --watch",
     "release": "np",
     "prepublish": "npm run build",
     "repl": "babel-node",
-    "lint": "lint-staged",
+    "prettier": "prettier --write ./**/*.js",
+    "lint": "eslint ./**/*.js",
+    "linter": "npm run prettier && npm run lint",
     "precommit": "lint-staged"
   },
   "repository": {
@@ -38,11 +40,7 @@
     "coveralls": "^2.13.0",
     "enzyme": "^2.8.0",
     "eslint": "^3.19.0",
-    "eslint-config-fbjs": "^1.1.1",
-    "eslint-plugin-babel": "^4.1.1",
-    "eslint-plugin-flowtype": "^2.32.1",
-    "eslint-plugin-jasmine": "^2.2.0",
-    "eslint-plugin-prefer-object-spread": "^1.2.1",
+    "eslint-plugin-prettier-rules": "^0.0.5",
     "eslint-plugin-react": "^6.10.3",
     "husky": "^0.13.3",
     "jest": "^19.0.2",
@@ -65,7 +63,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier --write",
+      "prettier --single-quotes --write",
       "eslint",
       "git add"
     ]

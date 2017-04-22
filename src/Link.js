@@ -8,9 +8,13 @@ const handleLink = (to, queryTo, onClick, keepQuery) => event => {
     onClick(event);
   }
 
-  if (to) router.goto(to, keepQuery);
+  if (to) {
+    router.goto(to, keepQuery);
+  }
 
-  if (queryTo) router.setQueryString(queryTo);
+  if (queryTo) {
+    router.setQueryString(queryTo);
+  }
 };
 
 const Link = ({ to, onClick, keepQuery, queryTo, children, ...props }) => (

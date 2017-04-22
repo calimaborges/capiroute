@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "plugin:prettier-rules/eslint",
+    "plugin:prettier-rules/react"
+  ],
+  "plugins": [
+    "react",
+    "prettier-rules"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}
