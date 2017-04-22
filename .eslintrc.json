@@ -10,5 +10,8 @@
   "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module"
+  },
+  "rules": {
+    "complexity": ["error",5]
   }
 }
