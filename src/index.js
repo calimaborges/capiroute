@@ -1,7 +1,4 @@
-import router from './router';
-import Link from './Link';
+import router from "./router";
+import Link from "./Link";
 
-export {
-    router,
-    Link
-};
+export { router, Link };

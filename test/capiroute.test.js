@@ -1,119 +1,121 @@
-import { router } from '../src';
-import { setCurrentUrl } from './helper.lib';
+import { router } from "../src";
+import { setCurrentUrl } from "./helper.lib";
 
-describe('subscription', () => {
-    it('should trigger listeners on location change', () => {
-        let called = 0;
-        router.subscribe(() => {
-            called++;
-        });
-
-        window.onpopstate();
-        expect(called).toBe(1);
+describe("subscription", () => {
+  it("should trigger listeners on location change", () => {
+    let called = 0;
+    router.subscribe(() => {
+      called++;
     });
 
-    it('should unsubscribe listener', () => {
-        let called = 0;
-        const unsubscribe = router.subscribe(() => {
-            called++;
-        });
-        unsubscribe();
+    window.onpopstate();
+    expect(called).toBe(1);
+  });
 
-        window.onpopstate();
-        expect(called).toBe(0);
+  it("should unsubscribe listener", () => {
+    let called = 0;
+    const unsubscribe = router.subscribe(() => {
+      called++;
     });
+    unsubscribe();
+
+    window.onpopstate();
+    expect(called).toBe(0);
+  });
 });
 
-describe('routing management', () => {
-    it('should go to specified route', () => {
-        const oldPushState = window.history.pushState;
-        const oldOnPopState = window.onpopstate;
-        window.history.pushState = jest.fn();
-        window.onpopstate = jest.fn();
-        router.goto('/tasks');
+describe("routing management", () => {
+  it("should go to specified route", () => {
+    const oldPushState = window.history.pushState;
+    const oldOnPopState = window.onpopstate;
+    window.history.pushState = jest.fn();
+    window.onpopstate = jest.fn();
+    router.goto("/tasks");
 
-        // FIXME: should try to test without mocks
-        expect(window.history.pushState.mock.calls.length).toBe(1);
-        expect(window.history.pushState.mock.calls[0][2]).toBe('/tasks');
-        expect(window.onpopstate.mock.calls.length).toBe(1);
+    // FIXME: should try to test without mocks
+    expect(window.history.pushState.mock.calls.length).toBe(1);
+    expect(window.history.pushState.mock.calls[0][2]).toBe("/tasks");
+    expect(window.onpopstate.mock.calls.length).toBe(1);
 
-        window.history.pushState = oldPushState;
-        window.onpopstate = oldOnPopState;
+    window.history.pushState = oldPushState;
+    window.onpopstate = oldOnPopState;
+  });
+
+  it("should go back", () => {
+    const oldBack = window.history.pushState;
+    window.history.back = jest.fn();
+    router.back();
+    expect(window.history.back.mock.calls.length).toBe(1);
+    window.history.back = oldBack;
+  });
+
+  it("should match current route", () => {
+    setCurrentUrl("http://www.example.com/tasks");
+    expect(router.match(/\/tasks/)).toBe(true);
+    expect(router.match(/\/tosko/)).toBe(false);
+  });
+
+  it("should identify root path without /", () => {
+    setCurrentUrl("http://www.example.com");
+    expect(router.isRoot()).toBe(true);
+  });
+
+  it("should identify root path with /", () => {
+    setCurrentUrl("http://www.example.com/");
+    expect(router.isRoot()).toBe(true);
+  });
+
+  it("should identify bizarre root path", () => {
+    setCurrentUrl("http://www.example.com////");
+    expect(router.isRoot()).toBe(true);
+  });
+
+  it("should return matched params after match", () => {
+    setCurrentUrl("http://www.example.com/tasks/34");
+    router.match(/^\/tasks\/(\d+)/);
+    expect(router.getMatchedParams()[1]).toBe("34");
+  });
+
+  it("should return query string", () => {
+    setCurrentUrl("http://www.example.com/tasks?type=completed&box=archive");
+    expect(router.getQueryString()).toEqual({
+      type: "completed",
+      box: "archive"
     });
+  });
 
-    it('should go back', () => {
-        const oldBack = window.history.pushState;
-        window.history.back = jest.fn();
-        router.back();
-        expect(window.history.back.mock.calls.length).toBe(1);
-        window.history.back = oldBack;
+  it("should check for query string", () => {
+    setCurrentUrl("http://www.example.com/tasks?type=completed&box=archive");
+    expect(router.hasQueryString()).toBe(true);
+
+    setCurrentUrl("http://www.example.com/tasks");
+    expect(router.hasQueryString()).toBe(false);
+  });
+
+  it("should define query string", () => {
+    setCurrentUrl("http://www.example.com/tasks");
+    const oldPushState = window.history.pushState;
+    const oldOnPopState = window.onpopstate;
+    window.history.pushState = jest.fn();
+    window.onpopstate = jest.fn();
+
+    router.setQueryString({ type: "test" });
+
+    // FIXME: should try to test without mocks
+    expect(window.history.pushState.mock.calls.length).toBe(1);
+    expect(window.history.pushState.mock.calls[0][2]).toBe("/tasks?type=test");
+    expect(window.onpopstate.mock.calls.length).toBe(1);
+
+    window.history.pushState = oldPushState;
+    window.onpopstate = oldOnPopState;
+  });
+
+  it("should force route update", () => {
+    let calls = 0;
+    router.subscribe(() => {
+      calls++;
     });
-
-    it('should match current route', () => {
-        setCurrentUrl('http://www.example.com/tasks');
-        expect(router.match(/\/tasks/)).toBe(true);
-        expect(router.match(/\/tosko/)).toBe(false);
-    });
-
-    it('should identify root path without /', () => {
-        setCurrentUrl('http://www.example.com');
-        expect(router.isRoot()).toBe(true);
-    });
-
-    it('should identify root path with /', () => {
-        setCurrentUrl('http://www.example.com/');
-        expect(router.isRoot()).toBe(true);
-    });
-
-    it('should identify bizarre root path', () => {
-        setCurrentUrl('http://www.example.com////');
-        expect(router.isRoot()).toBe(true);
-    });
-
-    it('should return matched params after match', () => {
-        setCurrentUrl('http://www.example.com/tasks/34');
-        router.match(/^\/tasks\/(\d+)/);
-        expect(router.getMatchedParams()[1]).toBe('34');
-    });
-
-    it('should return query string', () => {
-        setCurrentUrl('http://www.example.com/tasks?type=completed&box=archive');
-        expect(router.getQueryString()).toEqual({ type: 'completed', box: 'archive' });
-    });
-
-    it('should check for query string', () => {
-        setCurrentUrl('http://www.example.com/tasks?type=completed&box=archive');
-        expect(router.hasQueryString()).toBe(true);
-
-        setCurrentUrl('http://www.example.com/tasks');
-        expect(router.hasQueryString()).toBe(false);
-    });
-
-    it('should define query string', () => {
-        setCurrentUrl('http://www.example.com/tasks');
-        const oldPushState = window.history.pushState;
-        const oldOnPopState = window.onpopstate;
-        window.history.pushState = jest.fn();
-        window.onpopstate = jest.fn();
-
-        router.setQueryString({ type: 'test' });
-
-        // FIXME: should try to test without mocks
-        expect(window.history.pushState.mock.calls.length).toBe(1);
-        expect(window.history.pushState.mock.calls[0][2]).toBe('/tasks?type=test');
-        expect(window.onpopstate.mock.calls.length).toBe(1);
-
-        window.history.pushState = oldPushState;
-        window.onpopstate = oldOnPopState;
-    });
-
-    it('should force route update', () => {
-        let calls = 0;
-        router.subscribe( () => {
-            calls++;
-        });
-        router.dispatch();
-        expect(calls).toBe(1);
-    });
-
+    router.dispatch();
+    expect(calls).toBe(1);
+  });
 });

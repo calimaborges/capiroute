@@ -1,70 +1,70 @@
-import qs from 'qs';
-import normalize from 'normalize-path';
+import qs from "qs";
+import normalize from "normalize-path";
 
 const createRouter = () => {
+  let listeners = [];
+  let params = null;
+  let query = null;
 
-    let listeners = [];
-    let params = null;
-    let query = null;
+  // returns unsubscribe function
+  const subscribe = listener => {
+    listeners.push(listener);
 
-    // returns unsubscribe function
-    const subscribe = (listener) => {
-        listeners.push(listener);
-
-        return () => {
-            listeners = listeners.filter(l => l !== listener);
-        }
+    return () => {
+      listeners = listeners.filter(l => l !== listener);
     };
+  };
 
-    const goto = (route, keepQuery = true) => {
-        if (keepQuery) {
-            route = `${route}${window.location.search}`;
-        }
+  const goto = (route, keepQuery = true) => {
+    if (keepQuery) {
+      route = `${route}${window.location.search}`;
+    }
 
-        window.history.pushState(null, "", route);
-        window.onpopstate();
-    };
+    window.history.pushState(null, "", route);
+    window.onpopstate();
+  };
 
-    const back = () => window.history.back();
+  const back = () => window.history.back();
 
-    const getCurrentRoute = () => normalize(window.location.pathname);
+  const getCurrentRoute = () => normalize(window.location.pathname);
 
-    const match = (route) => {
-        params = getCurrentRoute().match(route);
-        return !!params;
-    };
+  const match = route => {
+    params = getCurrentRoute().match(route);
+    return !!params;
+  };
 
-    const isRoot = () => match(/^\/?$/);
+  const isRoot = () => match(/^\/?$/);
 
-    const getMatchedParams = () => params;
+  const getMatchedParams = () => params;
 
-    const getQueryString = () => qs.parse(window.location.search.substr(1));
+  const getQueryString = () => qs.parse(window.location.search.substr(1));
 
-    const hasQueryString = () => Object.keys(getQueryString()).length > 0;
+  const hasQueryString = () => Object.keys(getQueryString()).length > 0;
 
-    const setQueryString = (obj) => {
-        query = { ...query, ...obj };
-        let route = `${getCurrentRoute()}?${qs.stringify(query)}`;
-        goto(route, false);
-    };
+  const setQueryString = obj => {
+    query = { ...query, ...obj };
+    let route = `${getCurrentRoute()}?${qs.stringify(query)}`;
+    goto(route, false);
+  };
 
-    const dispatch = () => window.onpopstate();
+  const dispatch = () => window.onpopstate();
 
-    window.onpopstate = () => listeners.forEach(listener => listener(window.location));
+  window.onpopstate = () =>
+    listeners.forEach(listener => listener(window.location));
 
-    return {
-        subscribe,
-        goto,
-        back,
-        match,
-        getMatchedParams,
-        getQueryString,
-        hasQueryString,
-        setQueryString,
-        dispatch,
-        isRoot,
-        getCurrentRoute
-    };
+  return {
+    subscribe,
+    goto,
+    back,
+    match,
+    getMatchedParams,
+    getQueryString,
+    hasQueryString,
+    setQueryString,
+    dispatch,
+    isRoot,
+    getCurrentRoute
+  };
 };
 
 export default createRouter();
