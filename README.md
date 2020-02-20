@@ -1,5 +1,10 @@
 # capiroute
 
+!! ARCHIVED PROJECT! OTHER ROUTERS ARE MUCH BETTER !! TRY:
+
+- [https://github.com/ReactTraining/react-router](https://github.com/ReactTraining/react-router)
+- [https://reach.tech/router](https://reach.tech/router)
+
 [![Build Status](https://www.travis-ci.org/calimaborges/capiroute.svg?branch=master)](https://www.travis-ci.org/calimaborges/capiroute)
 [![Coverage Status](https://coveralls.io/repos/github/calimaborges/capiroute/badge.svg?branch=master)](https://coveralls.io/github/calimaborges/capiroute?branch=master)
 
